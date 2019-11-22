@@ -20,31 +20,37 @@ class AP:
 
         while (paq_tx < paqs):
             if (i%5 == 0):
-                print(str(i) + '\tEB*DIFS' )
+                #print(str(i) + '\tEB*DIFS' )
                 eb = randrange(16)
                 eb_t += eb
                 t  += self.t_DIFS*eb
             elif((i+1)%5==0):
-                print(str(i) + '\tACK' )
+                #print(str(i) + '\tACK' )
                 t  += self.t_ACK
             elif((i+2)%5==0):
-                print(str(i) + '\tSIFS')
+                #print(str(i) + '\tSIFS')
                 t  += self.t_SIFS
             elif((i+3)%5==0):
-                print(str(i) + '\tDATA')
+                #print(str(i) + '\tDATA')
                 t  += self.t_DATA
                 paq_tx += 1
             elif((i+4)%5==0):
-                print(str(i) + '\tDIFS')
+                #print(str(i) + '\tDIFS')
                 t  += self.t_DIFS
             i += 1
-        print('Los paquetes transmitidos fueron ' + str(paq_tx))
+        #print('Los paquetes transmitidos fueron ' + str(paq_tx))
 
         #bits en 1000 transmisiones/tiempo para las 1000 transmisiones
         Rbps_prom = (1500*8*paq_tx)/(t)
             
-        return [t,float(eb_t)/paq_tx, Rbps_prom]
+        return [paq_tx,t,float(eb_t)/paq_tx, Rbps_prom]
 
-    
+
+#------------------------MAIN---------------------------------    
 AP_1 = AP()
-print(AP_1.StartSimulation(1000))
+results = AP_1.StartSimulation(1000)
+print("\n\n---------------Una terminal movil transmitiendo----------------\n")
+print("Se transmitieron "+str(results[0]) + " paquetes en " +str(results[1]) + "[s]." )
+print("Eb promedio es de "+str(results[2]) + "[s].")
+print("La tasa de transmision asociada es de "+str(results[3])+ "[bps].")
+print("------------------------------------------------------------------\n\n")
